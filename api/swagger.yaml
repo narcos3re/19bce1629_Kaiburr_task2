@@ -1,0 +1,103 @@
+---
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "Server API"
+host: "localhost:8080"
+basePath: "/api"
+schemes:
+- "http"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+paths:
+  /servers:
+    get:
+      summary: "Get all servers or a single server by id"
+      operationId: "serversGET"
+      parameters:
+      - name: "id"
+        in: "query"
+        description: "The id of the server to get"
+        required: false
+        type: "string"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Server"
+        "404":
+          description: "Not Found"
+      x-swagger-router-controller: "Default"
+    put:
+      summary: "Create or update a server"
+      operationId: "serversPUT"
+      parameters:
+      - in: "body"
+        name: "server"
+        description: "The server to create or update"
+        required: true
+        schema:
+          $ref: "#/definitions/Server"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Server"
+      x-swagger-router-controller: "Default"
+  /servers/{id}:
+    delete:
+      summary: "Delete a server by id"
+      operationId: "serversIdDELETE"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "The id of the server to delete"
+        required: true
+        type: "string"
+      responses:
+        "204":
+          description: "No Content"
+        "404":
+          description: "Not Found"
+      x-swagger-router-controller: "Default"
+  /servers/find:
+    get:
+      summary: "Find servers by name"
+      operationId: "serversFindGET"
+      parameters:
+      - name: "name"
+        in: "query"
+        description: "The name of the server(s) to find"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Server"
+        "404":
+          description: "Not Found"
+      x-swagger-router-controller: "Default"
+definitions:
+  Server:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+      language:
+        type: "string"
+      framework:
+        type: "string"
+    example:
+      framework: "framework"
+      name: "name"
+      language: "language"
+      id: "id"
